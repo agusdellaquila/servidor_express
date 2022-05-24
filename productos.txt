@@ -1,0 +1,5 @@
+{"title":"Nicasia Blanc","price":4690,"stock":25,"id":1},
+{"title":"Nicasia red","price":3500,"stock":30,"id":2},
+{"title":"Krug","price":62000,"stock":50,"id":3},
+{"title":"Jack Daniels","price":5500,"stock":15,"id":4},
+{"title":"Malibu","price":2800,"stock":20,"id":5},
