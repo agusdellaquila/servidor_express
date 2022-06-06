@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Publicar</title>
+</head>
+<body style="display: flex; flex-direction: column; justify-content: center; align-items: center;">
+    <h2 class="text-3xl m-3 font-bold">Productos</h2>
+    <div class="m-5">
+        <a class="bg-rose-900 rounded-full text-white p-2" href="/">Form page</a>
+    </div>
+    <% if (products.data.length === 0) { %>
+        <h2>No products</h2>
+    <% } else { %>
+        <section class="bg-white py-20 lg:py-[120px]">
+            <div class="container">
+            <div class="flex flex-wrap -mx-4">
+                <div class="w-full px-4">
+                    <div class="max-w-full overflow-x-auto">
+                        <table class="table-auto w-full">
+                        <thead>
+                            <tr class="bg-primary text-center">
+                                <th class="w-1/6 min-w-[160px] text-lg font-semibold py-4 lg:py-7 px-3 lg:px-4 border-l border-transparent">
+                                    Name
+                                </th>
+                                <th class="w-1/6 min-w-[160px] text-lg font-semibold py-4 lg:py-7 px-3 lg:px-4">
+                                    Price
+                                </th>
+                                <th class="w-1/6 min-w-[160px] text-lg font-semibold py-4 lg:py-7 px-3 lg:px-4">
+                                    Stock
+                                </th>
+                                <th class="w-1/6 min-w-[160px] text-lg font-semibold py-4 lg:py-7 px-3 lg:px-4">
+                                    Image
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% products.data.forEach((product) => { %>
+                                <tr style="text-align: center">
+                                    <td class="text-center text-dark font-medium text-base py-5 px-2 bg-[#F3F6FF] border-b border-l border-[#E8E8E8]"><%= product.title %></td>
+                                    <td class="text-center text-dark font-medium text-base py-5 px-2 bg-[#F3F6FF] border-b border-l border-[#E8E8E8]"><%= product.price %></td>
+                                    <td class="text-center text-dark font-medium text-base py-5 px-2 bg-[#F3F6FF] border-b border-l border-[#E8E8E8]"><%= product.stock %></td>
+                                    <td class="text-center text-dark font-medium text-base py-5 px-2 bg-[#F3F6FF] border-b border-l border-[#E8E8E8]"><img src=<%= product.image %> style="margin: 0 auto" width="100px"></td>
+                                </tr>
+                            <% }) %>
+                        </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            </div>
+        </section>
+    <% } %> 
+</body>
+</html>
