@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Publicar</title>
+    <script src="/socket.io/socket.io.js"></script>
+    <script defer src="main.js"></script>
+</head>
+<body style="display: flex; flex-direction: column; justify-content: center; align-items: center;">
+    <h2 class="text-3xl m-3 font-bold">Agregar producto</h2>
+
+    <div class="m-5">
+        <a href="/">Home</a>
+        <a class="bg-rose-900 rounded-full text-white p-2" href="/products">Products page</a>
+    </div>
+    
+    <div class="bg-stone-400 m-5 p-5">
+        <div class="m-5" id="messages"></div>
+    
+        <form id="messageSubmit">
+            email: <input id="email" type="text" name="email">
+            message: <input id="message" type="text" name="message">
+    
+            <input type="submit" value="Send">
+        </form>
+    </div>
+
+    <form onsubmit="return addProduct(this)">
+        Title: <input id="title" class="bg-stone-400 rounded-md text-white" name="title">
+        Price: <input id="price" class="bg-stone-400 rounded-md text-white" name="price" type="number">
+        Stock: <input id="stock" class="bg-stone-400 rounded-md text-white" name="stock" type="number">
+        URL: <input id="image" class="bg-stone-400 rounded-md text-white" name="image" type="url">
+
+        <button class="bg-rose-900 rounded-md text-white p-1" type="submit">Agregar</button>
+    </form>
+
+    <% if (products.data.length === 0) { %>
+        <h2>No products</h2>
+    <% } else { %>
+        <section class="bg-white mt-5">
+            <div class="container">
+            <div class="flex flex-wrap -mx-4">
+                <div class="w-full px-4">
+                    <div class="max-w-full overflow-x-auto">
+                        <table class="table-auto w-full">
+                        <thead>
+                            <tr class="bg-primary text-center">
+                                <th class="w-1/6 min-w-[160px] text-lg font-semibold py-4 lg:py-7 px-3 lg:px-4 border-l border-transparent">
+                                    Name
+                                </th>
+                                <th class="w-1/6 min-w-[160px] text-lg font-semibold py-4 lg:py-7 px-3 lg:px-4">
+                                    Price
+                                </th>
+                                <th class="w-1/6 min-w-[160px] text-lg font-semibold py-4 lg:py-7 px-3 lg:px-4">
+                                    Stock
+                                </th>
+                                <th class="w-1/6 min-w-[160px] text-lg font-semibold py-4 lg:py-7 px-3 lg:px-4">
+                                    Image
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody id="products">
+                        </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            </div>
+        </section>
+    <% } %> 
+</body>
+</html>
