@@ -14,6 +14,16 @@
         <a href="/">Home</a>
     </div>
 
+    <form id="addProduct" action="/api/products/form" method="POST">
+        Title: <input id="title" class="bg-stone-400 rounded-md text-white" name="title">
+        Price: <input id="price" class="bg-stone-400 rounded-md text-white" name="price" type="number">
+        Stock: <input id="stock" class="bg-stone-400 rounded-md text-white" name="stock" type="number">
+        Description: <input id="description" class="bg-stone-400 rounded-md text-white" name="stock" type="text">
+        URL: <input id="image" class="bg-stone-400 rounded-md text-white" name="image" type="text">
+
+        <button class="bg-rose-900 rounded-md text-white p-1" type="submit">Agregar</button>
+    </form>
+
     <% if (products.data.length === 0) { %>
         <h2>No products</h2>
     <% } else { %>
