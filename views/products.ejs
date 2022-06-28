@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Publicar</title>
+    <script src="/socket.io/socket.io.js"></script>
+    <script defer src="main.js"></script>
+</head>
+<body style="display: flex; flex-direction: column; justify-content: center; align-items: center;">
+    <h2 class="text-3xl m-3 font-bold">Agregar producto</h2>
+
+    <div class="m-5">
+        <a href="/">Home</a>
+    </div>
+
+    <div class="bg-stone-400 m-5 p-5">
+        <h3>CHAT</h3>
+        <div class="m-5" id="messages"></div>
+    
+        <form id="messageSubmit">
+            user: <input id="user" type="text" name="user">
+            message: <input id="message" type="text" name="message">
+    
+            <input type="submit" value="Send">
+        </form>
+    </div>
+
+    <% if (products.data.length === 0) { %>
+        <h2>No products</h2>
+    <% } else { %>
+        <div class="flex flex-wrap w-full justify-center">
+                <% products.data.map (element => { %>
+                    <div class="flex-col text-center bg-gray-300 w-2/12 h-auto p-4 m-4">
+                        <p class="text-3xl font-bold m-3"><%=element.title%></p>
+                        <p class="font-bold text-green-600 m-3">$<%=element.price%></p>
+                        <p class="m-3">Stock: <span><%=element.stock%></span></p>
+                        <p class="m-3"><%=element.description%></p>
+                        <img class="m-3" src=<%=element.image%> style="margin: 0 auto" width="100px">
+                        <a class="font-bold bg-red-500 p-1" href=<%=`/api/products/${element.id}`%>>Details</a>
+                    </div>
+                <% }) %>
+        </div>
+    <% } %> 
+    <script defer> 
+        const socket = io.connect();
+
+        const renderMessages = (data) => {
+            const html = data.map( element => {
+                return (
+                    `<div>
+                        <b class="text-blue-500">${element.username}</b> <span class="text-red-400">[${element.timestamp}] :</span> <em class="text-green-300">${element.message}</em>
+                    </div>`
+                )
+            }).join(' ')
+
+            document.getElementById('messages').innerHTML = html
+        }
+
+        const addMessage = (e) => {
+            e.preventDefault()
+
+            const msg = {
+                username: document.getElementById('user').value,
+                message: document.getElementById('message').value,
+                timestamp: new Date().toLocaleString()
+            }
+
+            socket.emit('newMessage', msg)
+        }
+
+        document.getElementById("messageSubmit").addEventListener("submit", addMessage)
+
+        socket.on('messages', messages => {
+            renderMessages(messages)
+        })
+</script>
+</body>
+</html>
