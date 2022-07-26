@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Log In</title>
+</head>
+<body style="display: flex; flex-direction: column; justify-content: center; align-items: center;">
+    <h2 class="text-3xl m-3 font-bold">Welcome <%= sessionUsername %></h2>
+    
+    <div class="m-5 flex flex-col">
+        <a class="underline" href="/products">See all products</a>
+        <a class="underline" href="/form">Add a product</a>
+    </div>
+
+    <a class="bg-red-400 p-2" href="/logout">Log out</a>
+</body>
+</html>

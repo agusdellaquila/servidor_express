@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Log In</title>
+</head>
+<body style="display: flex; flex-direction: column; justify-content: center; align-items: center;">
+    <h2 class="text-3xl m-3 font-bold">Log In</h2>
+
+    <!-- <div class="m-5">
+        <a href="/">Home</a>
+    </div> -->
+
+    <div class="bg-stone-400 m-5 p-5">    
+        <form id="login" action="/login" method="POST">
+            <div class="flex-col">
+                <p>Username/Email:</p> <input id="user" type="text" name="username">
+                <p>Password:</p> <input id="password" type="text" name="password">
+            </div>
+    
+            <input class="bg-gray-500 p-2 mt-6" type="submit" value="Log in">
+        </form>
+    </div>
+</body>
+</html>
