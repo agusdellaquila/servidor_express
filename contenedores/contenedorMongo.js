@@ -15,7 +15,7 @@ class ContenedorMongo {
     }
 
     async getByID(id) {
-        return this.model.find({_id: new ObjectId(id)})
+        return this.model.find({_id: new ObjectId(id.trim())})
     }
 
     async getAll() {

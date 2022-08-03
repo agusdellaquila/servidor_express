@@ -10,11 +10,11 @@
 <body style="display: flex; flex-direction: column; justify-content: center; align-items: center;">
     <h2 class="text-3xl m-3 font-bold">Welcome <%= sessionUsername %></h2>
     
-    <div class="m-5 flex flex-col">
-        <a class="underline" href="/products">See all products</a>
-        <a class="underline" href="/form">Add a product</a>
+    <div class="flex justify-evenly mt-10 w-full">
+        <a class="underline bg-gray-400 p-2" href="/products">See all products</a>
+        <a class="underline bg-gray-400 p-2" href="/form">Add a product</a>
     </div>
 
-    <a class="bg-red-400 p-2" href="/logout">Log out</a>
+    <a class="bg-red-400 p-2 mt-16" href="/logout">Log out</a>
 </body>
 </html>
