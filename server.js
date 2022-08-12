@@ -8,6 +8,8 @@ const mongoStore = require('connect-mongo')
 const mongoose = require('mongoose')
 const FactoryDAO = require('./daos/index');
 const advancedOptions = {useNewUrlParser: true, useUnifiedTopology: true}
+const argv = require('minimist')(process.argv.slice(2))
+const { fork } = require('child_process')
 const app = express();
 
 const { normalize, schema } = require('normalizr')
@@ -198,6 +200,32 @@ app.delete('/carts', async (req, res) => {
     await DAO.cart.deleteAll()
     res.send('All cart products deleted.')
 })
+
+// INFO
+app.get('/info', async (req, res) => {
+    res.send({
+        inputArgs: argv,
+        platform: process.platform,
+        nodeVersion: process.versions.node,
+        Rss: process.memoryUsage.rss(),
+        exePath: process.execPath,
+        processId: process.pid,
+        projectFolder: process.cwd()
+    })
+})
+
+// RANDOMS
+app.get('/api/randoms', async (req, res) => {
+    let cant = (req.query.cant) ? req.query.cant : 100000000
+    const random = fork('random.js')
+    random.send(cant)
+    random.on('message', numbers => {
+        res.send({
+            active: 'randoms',
+            randoms: numbers
+        })
+    })
+})
 //--------------------Socket chat--------------------
 const ContenedorMensajes = require('./contenedores/contenedorMensajes')
 const messages = new ContenedorMensajes('DB_messages.json')
@@ -232,6 +260,9 @@ io.on('connection', function(socket) {
     })
 })
 //---------------------------------------------------
-httpServer.listen(8080, () => {
+// console.log(argv)
+// httpServer.listen(argv.p || 8080)
+httpServer.listen((argv.p || 8080), () => {
 	console.log(`Server listening on port: 8080 ...`)
 })
+httpServer.on('error', error => console.log(`Error: ${error}`))
