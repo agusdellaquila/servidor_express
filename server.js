@@ -10,6 +10,7 @@ const FactoryDAO = require('./daos/index');
 const advancedOptions = {useNewUrlParser: true, useUnifiedTopology: true}
 const argv = require('minimist')(process.argv.slice(2))
 const { fork } = require('child_process')
+const cluster = require("cluster");
 const app = express();
 
 const { normalize, schema } = require('normalizr')
@@ -203,6 +204,10 @@ app.delete('/carts', async (req, res) => {
 
 // INFO
 app.get('/info', async (req, res) => {
+    const numCPUs = require('os').cpus().length
+    //console.log(process.argv)
+    //console.log(process.memoryUsage())
+
     res.send({
         inputArgs: argv,
         platform: process.platform,
@@ -210,7 +215,8 @@ app.get('/info', async (req, res) => {
         Rss: process.memoryUsage.rss(),
         exePath: process.execPath,
         processId: process.pid,
-        projectFolder: process.cwd()
+        projectFolder: process.cwd(),
+        numCPUs: numCPUs
     })
 })
 

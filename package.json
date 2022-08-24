@@ -4,7 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon server.js",
+    "fork": "pm2 start server.js --name='ServerFork' --watch",
+    "cluster": "pm2 start server.js --name='ServerCluster' --watch -i max",
+    "forever": "forever start -w server.js"
   },
   "keywords": [],
   "author": "",
