@@ -38,7 +38,6 @@ app.use(session({
 // 	logger.info(`Ruta: ${req.path}, Método: ${req.method}`)
 // 	next()
 // })
-
 //RENDERS
 app.set('views', './views')
 app.set('view engine', 'ejs')
@@ -240,38 +239,38 @@ app.get('/api/randoms', async (req, res) => {
     })
 })
 //--------------------Socket chat--------------------
-// const ContenedorMensajes = require('./contenedores/contenedorMensajes')
-// const messages = new ContenedorMensajes('DB_messages.json')
-// const http = require('http')
-// const { Server } = require('socket.io')
-// const httpServer = http.createServer(app)
-// const io = new Server(httpServer)
+const ContenedorMensajes = require('./contenedores/contenedorMensajes')
+const messages = new ContenedorMensajes('DB_messages.json')
+const http = require('http')
+const { Server } = require('socket.io')
+const httpServer = http.createServer(app)
+const io = new Server(httpServer)
 
-// const user = new schema.Entity('users')
-// const message = new schema.Entity('messages', {
-//     messenger: user
-// })
-// const messageSchema = new schema.Entity('message', {
-// 	author: user,
-//     messages: [message]
-// })
+const user = new schema.Entity('users')
+const message = new schema.Entity('messages', {
+    messenger: user
+})
+const messageSchema = new schema.Entity('message', {
+	author: user,
+    messages: [message]
+})
 
-// io.on('connection', function(socket) {
-//     console.log('Un cliente se ha conectado: ' + socket.id)
+io.on('connection', function(socket) {
+    console.log('Un cliente se ha conectado: ' + socket.id)
 
-//     messages.selectMessages()
+    messages.selectMessages()
 
-//     const normalizedData = normalize(messages.data, [messageSchema])
+    const normalizedData = normalize(messages.data, [messageSchema])
 
-//     socket.emit('messages', normalizedData)
+    socket.emit('messages', normalizedData)
 
-//     socket.on('newMessage', async (newMessage) => {
-//         await messages.writeMessage(newMessage)
-//         messages.selectMessages()
-//         const messageSchema = normalize(messages.data, [messageSchema])
-//         io.sockets.emit('messages', normalizedData)
-//     })
-// })
+    socket.on('newMessage', async (newMessage) => {
+        await messages.writeMessage(newMessage)
+        messages.selectMessages()
+        const messageSchema = normalize(messages.data, [messageSchema])
+        io.sockets.emit('messages', normalizedData)
+    })
+})
 //---------------------------------------------------
 // console.log(argv)
 // httpServer.listen(argv.p || 8080)
