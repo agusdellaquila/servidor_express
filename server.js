@@ -7,11 +7,11 @@ const bcrypt = require('bcrypt')
 const mongoStore = require('connect-mongo')
 const mongoose = require('mongoose')
 const FactoryDAO = require('./daos/index')
-//const advancedOptions = {useNewUrlParser: true, useUnifiedTopology: true}
+const advancedOptions = {useNewUrlParser: true, useUnifiedTopology: true}
 const argv = require('minimist')(process.argv.slice(2))
 const { fork } = require('child_process')
 const cluster = require("cluster")
-const logger = require("./logger")
+//const logger = require("./logger")
 const app = express();
 
 const { normalize, schema } = require('normalizr')
@@ -27,17 +27,17 @@ app.use(session({
     cookie: {
         expires: 600000 
     },
-    // store: new MongoStore({
-    //     mongoUrl: `mongodb+srv:${process.env.MONGO_URI}`,
-    //     mongoOptions: advancedOptions
-    // })
+    store: new MongoStore({
+        mongoUrl: `mongodb+srv:${process.env.MONGO_URI}`,
+        mongoOptions: advancedOptions
+    })
 }))
 //---------------------------------------------------
 //logger 
-app.use((req,res, next) => {
-	logger.info(`Ruta: ${req.path}, Método: ${req.method}`)
-	next()
-})
+// app.use((req,res, next) => {
+// 	logger.info(`Ruta: ${req.path}, Método: ${req.method}`)
+// 	next()
+// })
 //RENDERS
 app.set('views', './views')
 app.set('view engine', 'ejs')
