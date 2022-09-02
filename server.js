@@ -7,7 +7,7 @@ const bcrypt = require('bcrypt')
 const mongoStore = require('connect-mongo')
 const mongoose = require('mongoose')
 const FactoryDAO = require('./daos/index')
-const advancedOptions = {useNewUrlParser: true, useUnifiedTopology: true}
+//const advancedOptions = {useNewUrlParser: true, useUnifiedTopology: true}
 const argv = require('minimist')(process.argv.slice(2))
 const { fork } = require('child_process')
 const cluster = require("cluster")
@@ -27,10 +27,10 @@ app.use(session({
     cookie: {
         expires: 600000 
     },
-    store: new MongoStore({
-        mongoUrl: `mongodb+srv:${process.env.MONGO_URI}`,
-        mongoOptions: advancedOptions
-    })
+    // store: new MongoStore({
+    //     mongoUrl: `mongodb+srv:${process.env.MONGO_URI}`,
+    //     mongoOptions: advancedOptions
+    // })
 }))
 //---------------------------------------------------
 //logger 
@@ -274,7 +274,7 @@ io.on('connection', function(socket) {
 //---------------------------------------------------
 // console.log(argv)
 // httpServer.listen(argv.p || 8080)
-httpServer.listen((argv.p || 8080), () => {
+httpServer.listen((process.env.PORT || 8080), () => {
 	console.log(`Server listening on port: 8080 ...`)
 })
 httpServer.on('error', error => console.log(`Error: ${error}`))
