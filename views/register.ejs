@@ -1,28 +1,131 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.tailwindcss.com"></script>
     <title>Register</title>
+    <link
+     rel="stylesheet"
+     href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/css/intlTelInput.css"
+   />
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/intlTelInput.min.js"></script>
 </head>
+
 <body style="display: flex; flex-direction: column; justify-content: center; align-items: center;">
-    <h2 class="text-3xl m-3 font-bold">Register</h2>
+    <nav class="shadow">
+        <div class="mx-auto w-screen px-2 sm:px-6 lg:px-8">
+            <div class="relative flex h-16 items-center justify-between">
+                <div class="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
+                    <div class="flex flex-shrink-0 items-center">
+                        <img class="block h-8 w-auto lg:hidden" src="https://en-pie-wines.vercel.app/images/logo.png"
+                            alt="Your Company">
+                        <img class="hidden h-8 w-auto lg:block" src="https://en-pie-wines.vercel.app/images/logo.png"
+                            alt="Your Company">
+                    </div>
+                    <div class="hidden sm:ml-6 sm:block">
+                        <div class="flex space-x-4">
+                            <a href="/login"
+                                class="hover:bg-gray-700 hover:text-white  px-3 py-2 rounded-md text-sm font-medium"
+                                aria-current="page">Inicio</a>
 
-    <!-- <div class="m-5">
-        <a href="/">Home</a>
-    </div> -->
+                            <a href="/products"
+                                class="hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Productos</a>
 
-    <div class="bg-stone-400 m-5 p-5">    
-        <form id="register" action="/register" method="POST">
-            <div class="flex-col">
-                <p>Username/Email:</p> <input id="user" type="text" name="user">
-                <p>Password:</p> <input id="password" type="text" name="password">
+                            <a href="/carts"
+                                class="hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Carrito</a>
+                                                            
+                            <a href="/profile"
+                            class="hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Perfil</a>
+                        </div>
+                    </div>
+                </div>
             </div>
-    
-            <input class="bg-gray-500 p-2 mt-6" type="submit" value="Register">
-        </form>
+        </div>
+    </nav>
+
+    <div
+        class="flex flex-col max-w-md px-4 py-8 bg-white rounded-lg shadow dark:bg-gray-800 sm:px-6 md:px-8 lg:px-10 mt-8">
+        <div class="self-center mb-2 text-xl font-light text-gray-800 sm:text-2xl dark:text-white">
+            Crear cuenta nueva
+        </div>
+        <span class="justify-center text-sm text-center text-gray-500 flex-items-center dark:text-gray-400">
+            Ya tienes una cuenta?
+            <a href="/login" class="text-sm text-blue-500 underline hover:text-blue-700">
+                Ingresar
+            </a>
+        </span>
+        <div class="p-6 mt-8">
+            <form id="register" action="/register" method="POST">
+                <div class="flex flex-col mb-2">
+                    <div class=" relative ">
+                        <input type="text" id="username" name="username"
+                            class=" rounded-lg border-transparent flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
+                            placeholder="Usuario" />
+                    </div>
+                </div>
+                <div class="flex gap-4 mb-2">
+                    <div class=" relative ">
+                        <input type="text" id="name" name="name"
+                            class=" rounded-lg border-transparent flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
+                            placeholder="Nombre" />
+                    </div>
+                    <div class=" relative ">
+                        <input type="text" id="surname" name="surname"
+                            class=" rounded-lg border-transparent flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
+                            placeholder="Apellido" />
+                    </div>
+                </div>
+                <div class="flex flex-col mb-2">
+                    <div class=" relative mt-2 mb-2">
+                        <input id="photo" type="text" name="photo"
+                            class=" rounded-lg border-transparent flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
+                            placeholder="URL de Imagen de perfil" />
+                    </div>
+                    <div class=" relative ">
+                        <input type="text" id="email" name="email"
+                            class=" rounded-lg border-transparent flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
+                            placeholder="Email" />
+                    </div>
+                    <div class=" relative mt-2">
+                        <input id="password" type="text" name="password"
+                            class=" rounded-lg border-transparent flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
+                            placeholder="Contraseña" />
+                    </div>
+                    <div class=" relative mt-2">
+                        <input id="phone" type="tel" name="phone"
+                            class=" rounded-lg border-transparent flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
+                            placeholder="Teléfono" />
+                    </div>
+                    <div class=" relative mt-2">
+                        <input id="adress" type="text" name="adress"
+                            class=" rounded-lg border-transparent flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
+                            placeholder="Dirección" />
+                    </div>
+                    <div class=" relative mt-2">
+                        <input id="age" type="number" name="age"
+                            class=" rounded-lg border-transparent flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
+                            placeholder="Edad" />
+                    </div>
+                </div>
+                <div class="flex w-full my-4">
+                    <button type="submit"
+                        class="py-2 px-4  bg-purple-600 hover:bg-purple-700 focus:ring-purple-500 focus:ring-offset-purple-200 text-white w-full transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2  rounded-lg ">
+                        Registrarse
+                    </button>
+                </div>
+            </form>
+        </div>
     </div>
+    <script>
+        const phoneInputField = document.getElementById('phone');
+        const phoneInput = window.intlTelInput(phoneInputField, {
+          utilsScript:
+            "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js",
+        });
+    </script>
 </body>
+
 </html>

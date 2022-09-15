@@ -1,54 +1,87 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="/socket.io/socket.io.js"></script>
+    <!-- <script src="/socket.io/socket.io.js"></script> -->
     <script src="https://cdn.jsdelivr.net/npm/normalizr@3.6.1/dist/normalizr.browser.min.js"></script>
-    <script defer src="/chat.js"></script>
+    <!-- <script defer src="/chat.js"></script> -->
     <title>Publicar</title>
 </head>
+
 <body style="display: flex; flex-direction: column; justify-content: center; align-items: center;">
-    <h2 class="text-3xl m-3 font-bold">Agregar producto</h2>
-
-    <div class="m-5 bg-gray-400 p-2">
-        <a href="/">Home</a>
-    </div>
-
-    <div class="bg-stone-400 m-5 p-5">
-        <div id="percentage"></div>
-        <div class="m-5" id="messages"></div>
-    
-        <form id="messageSubmit">
-            Email: <input id="Email" type="text" name="Email">
-            Nombre: <input id="Nombre" type="text" name="Nombre">
-            Apellido: <input id="Apellido" type="text" name="Apellido">
-            Edad: <input id="Edad" type="text" name="Edad">
-            Alias: <input id="Alias" type="text" name="Alias">
-            Mensaje: <input id="Mensaje" type="text" name="Mensaje">
-    
-            <input class="bg-gray-500 p-2" type="submit" value="Send">
-        </form>
-    </div>
-
-
-    <% if (products.length === 0) { %>
-        <h2>No products</h2>
-    <% } else { %>
-        <div class="flex flex-wrap w-full justify-center">
-                <% products.map (element => { %>
-                    <div class="flex-col text-center bg-gray-300 w-2/12 h-auto p-4 m-4">
-                        <p class="text-3xl font-bold m-3"><%=element.title%></p>
-                        <p class="font-bold text-green-600 m-3">$<%=element.price%></p>
-                        <p class="m-3">Stock: <span><%=element.stock%></span></p>
-                        <p class="m-3"><%=element.description%></p>
-                        <img class="m-3" src=<%=element.image%> style="margin: 0 auto" width="100px">
-                        <a class="font-bold bg-red-500 p-1" href=<%=`/products/${element.id}`%>>Details</a>
+    <nav class="shadow">
+        <div class="mx-auto w-screen px-2 sm:px-6 lg:px-8">
+            <div class="relative flex h-16 items-center justify-between">
+                <div class="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
+                    <div class="flex flex-shrink-0 items-center">
+                        <img class="block h-8 w-auto lg:hidden"
+                            src="https://en-pie-wines.vercel.app/images/logo.png" alt="Your Company">
+                        <img class="hidden h-8 w-auto lg:block"
+                            src="https://en-pie-wines.vercel.app/images/logo.png" alt="Your Company">
                     </div>
-                <% }) %>
+                    <div class="hidden sm:ml-6 sm:block">
+                        <div class="flex space-x-4">
+                            <a href="/login" class="hover:bg-gray-700 hover:text-white  px-3 py-2 rounded-md text-sm font-medium"
+                                aria-current="page">Inicio</a>
+
+                            <a href="/products"
+                                class="hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Productos</a>
+
+                            <a href="/carts"
+                                class="hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Carrito</a>
+                                                        
+                            <a href="/profile"
+                                class="hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Perfil</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-    <% } %> 
+    </nav>
+
+    <div>
+        <div class="mx-auto max-w-2xl py-16 px-4 sm:py-24 sm:px-6 lg:max-w-7xl lg:px-8">
+            <h2 class="text-2xl font-bold tracking-tight text-gray-900">Todos los productos</h2>
+
+            <div class="mt-6 grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
+                <% if (products.length===0) { %>
+                    <h2>No products</h2>
+                    <% } else { %>
+                        <% products.map (element=> { %>
+                            <div class="relative p-2">
+                                <div
+                                    class="min-h-80 aspect-w-1 aspect-h-1 w-full overflow-hidden rounded-md lg:aspect-none lg:h-80">
+                                    <img src=<%=element.image%>
+                                    alt="Front of men&#039;s Basic Tee in black."
+                                    class="h-full w-full object-cover object-center lg:h-full lg:w-full">
+                                </div>
+                                <div class="mt-4 flex justify-between">
+                                    <div>
+                                        <h3 class="text-sm text-gray-700">
+                                            <%=element.title%>
+                                        </h3>
+                                        <p class="mt-1 text-sm text-gray-500">
+                                            <%=element.description%>
+                                        </p>
+                                    </div>
+                                    <p class="text-sm font-medium text-gray-900">$<%=element.price%>
+                                    </p>
+                                </div>
+                                <div class="flex">
+                                    <button id="add" class="cursor-pointer bg-green-500 rounded p-1 ml-2" onClick="addProduct('<%= element.id %>')"> Add </button>
+                                    <a class="cursor-pointer font-bold bg-blue-400 rounded p-1 ml-2" href=<%=`/products/${element.id}`%>>Details</a>
+                                    <button id="delete" class="cursor-pointer bg-red-500 rounded p-1 ml-2" onClick="deleteProduct('<%= element.id %>')">Delete</button>
+                                </div>
+                            </div>
+                    <% }) %>
+                <% } %>
+            </div>
+        </div>
+    </div>
+    <script src="main.js" type="text/javascript"></script>
 </body>
 </html>
