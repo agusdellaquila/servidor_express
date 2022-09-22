@@ -26,5 +26,5 @@ function run(url) {
 
 console.log('Running all bechmarks in parallel ...');
 
-run("http://127.0.0.1:8080/auth-nobloq?username=r2&password=secret")
-run("http://127.0.0.1:8080/auth-bloq?username=r2&password=secret")
+run("http://127.0.0.1:80/auth-nobloq?username=r2&password=secret")
+run("http://127.0.0.1:80/auth-bloq?username=r2&password=secret")

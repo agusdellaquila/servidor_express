@@ -1,30 +1,27 @@
 const deleteProduct = (id) => {
-    fetch(`http://localhost:8080/products/${id}`, { 
-        method: 'DELETE'
+    fetch(`/products/${id}`, {
+        method: 'DELETE',
     })
-    .then(() => {
-        window.location.reload()
-    })
+    .then(res => res.json())
+    .then(res => console.log(res))
 }
-
 const addProduct = (id) => {
-    fetch('http://localhost:8080/carts', {
+    fetch('/cart', {
         headers: { "Content-Type": "application/json; charset=utf-8" },
         method: 'POST',
         body: JSON.stringify({
             addID: id
         })
     })
-    .then(response => response.json())
-    .catch(e => console.log(e))
+    .then(res => res.json())
+    .then(res => console.log(res))
 }
-
 const sendOrder = (cart) => {
     console.log('TWILIO')
     const accountSid = process.env.TWILIO_SID
     const authToken = process.env.TWILIO_TOKEN 
     const client = require('twilio')(accountSid, authToken); 
-    client.messages 
+    client.messages
       .create({ 
          body: 'Hola este es el carrito: ' + cart, 
          from: 'whatsapp:+14155238886',       
@@ -32,4 +29,19 @@ const sendOrder = (cart) => {
        }) 
       .then(message => console.log(message.sid)) 
       .done();
+}
+const deleteCartProduct = (id) => {
+    console.log(id)
+    fetch(`/cart/${id}`, { 
+        method: 'DELETE'
+    })
+    .then(res => res.json())
+    .then(res => console.log(res))
+}
+const deleteCart = async () => {
+    console.log( fetch("/cart", { 
+        method: 'DELETE'
+    }))
+    .then(res => res.json())
+    .then(res => console.log(res))
 }

@@ -1,4 +1,4 @@
-const ContenedorMongo = require('../../contenedores/contenedorMongo')
+const ContenedorMongo = require('../../services/contenedorMongo')
 const ProductModel = require('../../model/product.model')
 
 class ProductMongoDAO extends ContenedorMongo {

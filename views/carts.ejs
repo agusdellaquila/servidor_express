@@ -45,12 +45,13 @@
         <% } else { %>
             <div class="dFlexCol">
                 <% userCart.map(prod => { %>
+                    <%= console.log(prod) %>
                     <div class="mt20 mb20">
                         <div>
                             <div><img src=<%= prod.img %> style="width:150px;" alt="product" /></div>
                             <div class="title"><%= prod.title %></div>
                             <div class="price">$<%= prod.price %> USD</div>
-                            <button onClick=<%=`deleteCartProduct(${prod.id})`%> class="cartButtonDel" >Delete</button>
+                            <button onClick=<%=`deleteCartProduct(${prod.title})`%> class="cartButtonDel" >Delete</button>
                         </div>
                     </div>
                 <% }) %>

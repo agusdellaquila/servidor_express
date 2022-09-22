@@ -1,4 +1,3 @@
-const mongoose = require('mongoose');
 const ObjectId = require('mongoose').Types.ObjectId; 
 
 class ContenedorMongo {
@@ -45,7 +44,7 @@ class ContenedorMongo {
     }
 
     async deleteByID(id) {
-        const userDelete = await this.model.deleteOne({_id: new ObjectId(id)})
+        await this.model.deleteOne({_id: new ObjectId(id)})
         return true
     }
 
