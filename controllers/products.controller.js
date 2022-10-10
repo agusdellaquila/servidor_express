@@ -29,12 +29,12 @@ const deleteProductsController = async (req, res) => {
     await DAO.product.deleteByID(id)
     res.send(`Product with ID #${id} deleted.`)
 }
-// const editProductsController =  async (req, res) => {
-//     const id = Number(req.params.id)
-//     await DAO.product.editById(req.body, id)
-//     const products = await DAO.product.getAll()
-//     const username = req.session.username
-//     res.render('products.ejs', {products, username})
-// }
+const editProductsController =  async (req, res) => {
+    const id = Number(req.params.id)
+    await DAO.product.editById(req.body, id)
+    const products = await DAO.product.getAll()
+    const username = req.session.username
+    res.render('products.ejs', {products, username})
+}
 
-module.exports = {getProductsController, postProductsController, getByIdProductsController, deleteProductsController}
+module.exports = {getProductsController, postProductsController, getByIdProductsController, deleteProductsController, editProductsController}
