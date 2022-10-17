@@ -5,6 +5,10 @@ const MongoStore = require('connect-mongo')
 const session = require('express-session')
 //const logger = require("./logger")
 // const { normalize, schema } = require('normalizr') //Para el chat
+const {graphqlHTTP} = require("express-graphql")
+const shemaql = require("./graphql/Schema.js")
+const CarritoService = require("./services/carrito.service.js")
+const ProductoService = require("./services/producto.service.js")
 const advancedOptions = {useNewUrlParser: true, useUnifiedTopology: true}
 const cors = require("cors")
 require('./config/config');
@@ -51,6 +55,77 @@ app.use('/products', productsRouter)
 app.use('/addProduct', addProductRouter)
 app.use('/cart', cartsRouter)
 app.use('/profile', profileRouter)
+
+app.all("*", (req, res) => {
+    res.status(404).json({ "error": "ruta no existente" })
+});
+//---------------------------------
+
+async function getAllCarritos() {
+    return CarritoService.getInstance().getAll();
+}
+
+async function getAllProductos() {
+    return ProductoService.getInstance().getAll();
+}
+
+async function createCarrito() {
+    return CarritoService.getInstance().create();
+}
+
+async function deleteCarritoById({ id }) {
+    return CarritoService.getInstance().deleteById(id);
+}
+
+async function getAllProductsFromCartById({ id }) {
+    return CarritoService.getInstance().getAllProductsFromCart(id);
+}
+
+async function saveProductToCart({ id, idProd }) {
+    return CarritoService.getInstance().saveProductToCart(id, idProd);
+}
+
+async function deleteProductFromCart({ id, idProd }) {
+    return CarritoService.getInstance().deleteProductFromCart(id, idProd);
+}
+
+async function getProductById({ id }) {
+    return ProductoService.getInstance().getProductById(id);
+}
+
+async function createProduct({ data }) {
+    return ProductoService.getInstance().create(data);
+}
+
+async function updateProductById({ id, data }) {
+    return ProductoService.getInstance().updateProductById(id, data);
+}
+
+async function deleteProductById({ id }) {
+    return ProductoService.getInstance().deleteById(id);
+}
+
+app.use(
+    '/graphql',
+    graphqlHTTP({
+        shemaql,
+        rootValue: {
+            getAllCarritos,
+            getAllProductos,
+            createCarrito,
+            deleteCarritoById,
+            getAllProductsFromCartById,
+            saveProductToCart,
+            deleteProductFromCart,
+            getProductById,
+            createProduct,
+            updateProductById,
+            deleteProductById
+        },
+        graphiql: true
+    }
+    )
+)
 //---------------------------------
 app.listen((process.env.PORT || 80), () => {
 	console.log(`Server listening on port: 80 ...`)
