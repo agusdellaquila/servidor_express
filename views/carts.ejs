@@ -20,7 +20,7 @@
                     </div>
                     <div class="hidden sm:ml-6 sm:block">
                         <div class="flex space-x-4">
-                            <a href="/login" class="hover:bg-gray-700 hover:text-white  px-3 py-2 rounded-md text-sm font-medium"
+                            <a href="/" class="hover:bg-gray-700 hover:text-white  px-3 py-2 rounded-md text-sm font-medium"
                                 aria-current="page">Inicio</a>
 
                             <a href="/products"
@@ -48,21 +48,21 @@
                     <%= console.log(prod) %>
                     <div class="mt20 mb20">
                         <div>
-                            <div><img src=<%= prod.img %> style="width:150px;" alt="product" /></div>
+                            <img src=<%=prod.image%> class="w-40">
                             <div class="title"><%= prod.title %></div>
                             <div class="price">$<%= prod.price %> USD</div>
-                            <button onClick=<%=`deleteCartProduct(${prod.title})`%> class="cartButtonDel" >Delete</button>
+                            <button onClick="deleteCartProduct('<%= prod._id.toString() %>')" class="text-red-500 font-bold" >Delete</button>
                         </div>
                     </div>
                 <% }) %>
             </div>
-            <button onClick=<%="deleteCart()"%> class="cartButtonDelAll">Delete all</button>
+            <button onClick="deleteCartAll()" class="bg-red-500 p-2 mt-10 text-white rounded font-bold">Delete all</button>
         <% } %>
     </div>
-    <div class='flex items-center justify-center min-h-screen' onClick="sendOrder('<%= userCart %>')">
+    <div class='flex items-center justify-center' onClick="send('<%= JSON.stringify(userCart) %>')">
         <div className="md:w-72 rounded-3xl md:p-1 text-center flex flex-row md:flex-col ">
             <button type="button"
-                class="text-white bg-[#25D366] hover:bg-green-500 focus:ring-4 focus:outline-none focus:ring-[#3b5998]/50 font-medium rounded-2xl  text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-[#3b5998]/55 mr-2 mb-2">
+                class="text-white bg-[#25D366] hover:bg-green-500 focus:ring-4 focus:outline-none focus:ring-[#3b5998]/50 font-medium rounded-2xl  text-sm px-5 py-2.5 text-center inline-flex items-center mr-2 mb-2">
                 <span class="px-2 py-4 text-2xl text-gray-100 border-l-2 border-gray-100 font-mono">
                 </span>
                 <div class='text-xl font-mono font-bold pt-0.5'>
@@ -71,6 +71,6 @@
             </button>
         </div>
     </div>
-    <script src="main.js" type="text/javascript"></script>
+    <script src="cart.js" type="text/javascript"></script>
 </body>
 </html>

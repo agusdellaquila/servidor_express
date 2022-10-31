@@ -20,7 +20,7 @@
                     </div>
                     <div class="hidden sm:ml-6 sm:block">
                         <div class="flex space-x-4">
-                            <a href="/login" class="hover:bg-gray-700 hover:text-white  px-3 py-2 rounded-md text-sm font-medium"
+                            <a href="/" class="hover:bg-gray-700 hover:text-white  px-3 py-2 rounded-md text-sm font-medium"
                                 aria-current="page">Inicio</a>
 
                             <a href="/products"
@@ -38,8 +38,9 @@
         </div>
     </nav>
 
-    <h1>Logged out <%= username %></h1>
-
-    <a href="/">Log in</a>
+    <div class="flex-col w-96 mt-20 mx-auto justify-center">
+        <h1 class="text-center text-3xl font-semibold">Logged out <%= username %></h1>
+        <a href="/" class="ml-auto mt-6 bg-blue-500 text-white px-3 py-2 rounded-md text-sm font-medium">Log in</a>
+    </div>
 </body>
 </html>

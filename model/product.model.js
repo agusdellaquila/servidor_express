@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require('mongoose')
 
 const ProductModel = mongoose.model(
     'Products', 
@@ -8,6 +8,6 @@ const ProductModel = mongoose.model(
         stock: Number,
         image: String,
     })
-);
+)
  
-module.exports = ProductModel;
+module.exports = ProductModel

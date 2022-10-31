@@ -1,16 +1,24 @@
 const express = require('express')
 //---------------------------------
-const app = express();
+const app = express()
 const MongoStore = require('connect-mongo')
 const session = require('express-session')
 //const logger = require("./logger")
-// const { normalize, schema } = require('normalizr') //Para el chat
 const {graphqlHTTP} = require("express-graphql")
 const shemaql = require("./graphql/Schema.js")
 const CarritoService = require("./services/carrito.service.js")
 const ProductoService = require("./services/producto.service.js")
+const OrderService = require("./services/order.service.js")
+const MessageService = require("./services/messages.service.js")
+const FactoryDAO = require('./daos/index')
+const DAO = FactoryDAO()
 const advancedOptions = {useNewUrlParser: true, useUnifiedTopology: true}
 const cors = require("cors")
+const http = require('http')
+const { normalize, schema } = require('normalizr')
+const { Server } = require('socket.io')
+const httpServer = http.createServer(app)
+const io = new Server(httpServer)
 require('./config/config');
 require('dotenv').config()
 
@@ -40,25 +48,18 @@ app.use(cors())
 // })
 //---------------------------------
 //Routes
-const registerRouter = require('./routes/register.route.js')
-const loginRouter = require('./routes/login.route.js')
-const logoutRouter = require('./routes/logout.route.js')
-const productsRouter = require('./routes/products.route.js')
-const addProductRouter = require('./routes/addProduct.route.js')
-const cartsRouter = require('./routes/carts.route.js')
-const profileRouter = require('./routes/profile.route.js')
+const userRouter = require('./routes/user.routes')
+const productsRouter = require('./routes/products.routes.js')
+const cartsRouter = require('./routes/carts.routes.js')
+const messagesRouter = require('./routes/messages.routes')
 
-app.use('/register', registerRouter)
-app.use('/login', loginRouter)
-app.use('/logout', logoutRouter)
+app.use('/', userRouter)
 app.use('/products', productsRouter)
-app.use('/addProduct', addProductRouter)
 app.use('/cart', cartsRouter)
-app.use('/profile', profileRouter)
-
+app.use('/chat', messagesRouter)
 app.all("*", (req, res) => {
-    res.status(404).json({ "error": "ruta no existente" })
-});
+    res.render('notfound.ejs')
+})
 //---------------------------------
 
 async function getAllCarritos() {
@@ -105,6 +106,14 @@ async function deleteProductById({ id }) {
     return ProductoService.getInstance().deleteById(id);
 }
 
+async function createOrder() {
+    return OrderService.getInstance().create()
+}
+
+async function createMessage() {
+    return MessageService.getInstance().create()
+}
+
 app.use(
     '/graphql',
     graphqlHTTP({
@@ -120,64 +129,44 @@ app.use(
             getProductById,
             createProduct,
             updateProductById,
-            deleteProductById
+            deleteProductById,
+            createOrder,
+            createMessage
         },
         graphiql: true
     }
     )
 )
-//---------------------------------
-app.listen((process.env.PORT || 80), () => {
-	console.log(`Server listening on port: 80 ...`)
+
+//--------------------Socket chat-const 
+const ContenedorMessages = require('./containers/contenedorMessages')
+const messages = new ContenedorMessages('DB_messages.json')
+const user = new schema.Entity('users')
+const message = new schema.Entity('messages', {
+    messenger: user
 })
-app.on('error', error => console.log(`Error: ${error}`))
+const messageSchema = new schema.Entity('message', {
+	author: user,
+    messages: [message]
+})
 
-//--------------------Socket chat--------------------
-// const ContenedorMensajes = require('./contenedores/contenedorMensajes')
-// const messages = new ContenedorMensajes('DB_messages.json')
-// const http = require('http')
-// const { Server } = require('socket.io')
-// const httpServer = http.createServer(app)
-// const io = new Server(httpServer)
+io.on('connection', function(socket) {
+    console.log('Un cliente se ha conectado: ' + socket.id)
+    messages.read()
 
-// const user = new schema.Entity('users')
-// const message = new schema.Entity('messages', {
-//     messenger: user
-// })
-// const messageSchema = new schema.Entity('message', {
-// 	author: user,
-//     messages: [message]
-// })
+    const normalizedData = normalize(messages.data, [messageSchema])
 
-// io.on('connection', function(socket) {
-//     console.log('Un cliente se ha conectado: ' + socket.id)
+    socket.emit('messages', normalizedData)
 
-//     messages.selectMessages()
+    socket.on('newMessage', async (msg) => {
+        await messages.writeMessage(msg)
+        const normalizedData = normalize(messages.data, [messageSchema])
+        const messagesMongo = messages.read()
+        await DAO.messages.messagesSave(messagesMongo)
+        io.sockets.emit('messages', normalizedData)
+    })
+})
 
-//     const normalizedData = normalize(messages.data, [messageSchema])
-
-//     socket.emit('messages', normalizedData)
-
-//     socket.on('newMessage', async (newMessage) => {
-//         await messages.writeMessage(newMessage)
-//         messages.selectMessages()
-//         const messageSchema = normalize(messages.data, [messageSchema])
-//         io.sockets.emit('messages', normalizedData)
-//     })
-// })
-//---------------------------------------------------
-
-
-//TWILIO WHATSAPP
-// const accountSid = 'AC8f36b58666fb36bbe53c79d15dbf8298'; 
-// const authToken = '[AuthToken]'; 
-// const client = require('twilio')(accountSid, authToken); 
-
-// client.messages 
-//     .create({ 
-//         body: 'Your Yummy Cupcakes Company order of 1 dozen frosted cupcakes has shipped and should be delivered on July 10, 2019. Details: http://www.yummycupcakes.com/', 
-//         from: 'whatsapp:+14155238886',       
-//         to: 'whatsapp:+5491122428587' 
-//     }) 
-//     .then(message => console.log(message.sid)) 
-//     .done();
+//---------------------------------
+httpServer.listen(process.env.PORT || 80)
+httpServer.on('error', error => console.log(`Error en servidor ${error}`))

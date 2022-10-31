@@ -20,7 +20,7 @@
                     </div>
                     <div class="hidden sm:ml-6 sm:block">
                         <div class="flex space-x-4">
-                            <a href="/login" class="hover:bg-gray-700 hover:text-white  px-3 py-2 rounded-md text-sm font-medium"
+                            <a href="/" class="hover:bg-gray-700 hover:text-white  px-3 py-2 rounded-md text-sm font-medium"
                                 aria-current="page">Inicio</a>
 
                             <a href="/products"
@@ -40,12 +40,11 @@
     
     <h2 class="text-3xl m-3 font-bold">Agregar producto</h2>
 
-    <form id="addProduct" action="/products" method="POST">
-        Title: <input id="title" class="bg-stone-400 rounded-md text-white" name="title">
-        Price: <input id="price" class="bg-stone-400 rounded-md text-white" name="price" type="number">
-        Stock: <input id="stock" class="bg-stone-400 rounded-md text-white" name="stock" type="number">
-        Description: <input id="description" class="bg-stone-400 rounded-md text-white" name="description" type="text">
-        URL: <input id="image" class="bg-stone-400 rounded-md text-white" name="image" type="text">
+    <form action="/products" method="POST">
+        Title: <input required id="title" class="bg-stone-400 rounded-md text-white" name="title">
+        Price: <input required id="price" class="bg-stone-400 rounded-md text-white" name="price" type="number">
+        Stock: <input required id="stock" class="bg-stone-400 rounded-md text-white" name="stock" type="number">
+        URL: <input required id="image" class="bg-stone-400 rounded-md text-white" name="image" type="text">
 
         <button class="bg-rose-900 rounded-md text-white p-1" type="submit">Agregar</button>
     </form>

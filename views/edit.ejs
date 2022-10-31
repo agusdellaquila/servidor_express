@@ -1,0 +1,71 @@
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Publicar</title>
+</head>
+
+<body style="display: flex; flex-direction: column; justify-content: center; align-items: center;">
+    <nav class="shadow">
+        <div class="mx-auto w-screen px-2 sm:px-6 lg:px-8">
+            <div class="relative flex h-16 items-center justify-between">
+                <div class="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
+                    <div class="flex flex-shrink-0 items-center">
+                        <img class="block h-8 w-auto lg:hidden" src="https://en-pie-wines.vercel.app/images/logo.png"
+                            alt="Your Company">
+                        <img class="hidden h-8 w-auto lg:block" src="https://en-pie-wines.vercel.app/images/logo.png"
+                            alt="Your Company">
+                    </div>
+                    <div class="hidden sm:ml-6 sm:block">
+                        <div class="flex space-x-4">
+                            <a href="/"
+                                class="hover:bg-gray-700 hover:text-white  px-3 py-2 rounded-md text-sm font-medium"
+                                aria-current="page">Inicio</a>
+
+                            <a href="/products"
+                                class="hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Productos</a>
+
+                            <a href="/cart"
+                                class="hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Carrito</a>
+
+                            <a href="/profile"
+                                class="hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Perfil</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <h2 class="text-3xl m-3 font-bold">Editar producto</h2>
+
+    <form id="productEdit" onsubmit=<%=`editProduct("${prod.id}")`%>>
+        Title: <input required id="title" value="<%= prod.title %>" class="bg-stone-400 rounded-md text-white"
+            name="title">
+        Price: <input required id="price" value="<%= prod.price %>" class="bg-stone-400 rounded-md text-white"
+            name="price" type="number">
+        Stock: <input required id="stock" value="<%= prod.stock %>" class="bg-stone-400 rounded-md text-white"
+            name="stock" type="number">
+        imageURL: <input id="image" value="<%= prod.image %>" class="bg-stone-400 rounded-md text-white" name="image"
+            type="text">
+
+        <button class="bg-rose-900 rounded-md text-white p-1" type="submit">Editar</button>
+    </form>
+
+    <div class="mt-10 border flex-col justify-center mx-auto items-center text-center space-y-4">
+        <div>title: <span class="font-bold text-2xl">
+                <%= prod.title || '-' %>
+            </span></div>
+        <div>price: $<%= prod.price || '-' %>
+        </div>
+        <div>stock: <%= prod.stock || '-' %>
+        </div>
+        <img src=<%=prod.image%> class="w-40">
+    </div>
+    
+    <script src="/edit.js"></script>
+</body>
+</html>

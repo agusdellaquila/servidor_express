@@ -5,10 +5,10 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.tailwindcss.com"></script>
-    <title>Log In</title>
+    <title>Home</title>
 </head>
 <body style="display: flex; flex-direction: column; justify-content: center; align-items: center;">
-    <main class="dark:bg-gray-800 bg-white relative overflow-hidden h-screen">
+    <main class="bg-white relative overflow-hidden h-screen">
         <nav class="shadow">
             <div class="mx-auto w-screen px-2 sm:px-6 lg:px-8">
                 <div class="relative flex h-16 items-center justify-between">
@@ -21,9 +21,6 @@
                         </div>
                         <div class="hidden sm:ml-6 sm:block">
                             <div class="flex space-x-4">
-                                <a href=" hover:text-white  px-3 py-2 rounded-md text-sm font-medium"
-                                    aria-current="page">Inicio</a>
-    
                                 <a href="/products"
                                     class="hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Productos</a>
     
@@ -38,12 +35,12 @@
                 </div>
             </div>
         </nav>
-        <div class="bg-white dark:bg-gray-800 flex relative z-20 items-center overflow-hidden">
+        <div class="bg-whiteflex relative z-20 items-center overflow-hidden">
             <div class="container mx-auto px-6 flex relative py-16">
                 <div class="sm:w-2/3 lg:w-2/5 flex flex-col relative z-20">
-                    <span class="w-20 h-2 bg-gray-800 dark:bg-white mb-12">
+                    <span class="w-20 h-2 bg-gray-800 mb-12">
                     </span>
-                    <h1 class="font-bebas-neue uppercase text-6xl sm:text-8xl font-black flex flex-col leading-none dark:text-white text-gray-800">
+                    <h1 class="font-bebas-neue uppercase text-6xl sm:text-8xl font-black flex flex-col leading-none text-gray-800">
                         EnPie
                         <span class="text-5xl sm:text-7xl">
                             Wines
@@ -53,9 +50,11 @@
                         <a href="/products" class="uppercase py-2 px-4 rounded-lg bg-orange-500 border-2 border-transparent text-white text-md mr-4 hover:bg-orange-400">
                             See all products
                         </a>
-                        <a href="/addProduct" class="uppercase py-2 px-4 rounded-lg bg-transparent border-2 border-orange-500 text-orange-500 dark:text-white hover:bg-orange-500 hover:text-white text-md">
-                            Add a product
-                        </a>
+                        <% if (sessionUsername.role === 'admin') { %>
+                            <a href="/products/addProduct" class="uppercase py-2 px-4 rounded-lg bg-transparent border-2 border-orange-500 text-orange-500 hover:bg-orange-500 hover:text-white text-md">
+                                Add a product
+                            </a>
+                        <% } %>
                     </div>
                 </div>
                 <div class="hidden sm:block sm:w-1/3 lg:w-3/5 relative">
